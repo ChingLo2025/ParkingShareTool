@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>車位協調小工具</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="dot"></div>
+        <div>
+          <div class="title">車位協調小工具</div>
+          <div class="subtitle">私下協調用 · 以公司規定為準</div>
+        </div>
+      </div>
+      <button id="btnHome" class="ghost" title="回首頁">首頁</button>
+    </header>
+
+    <main class="card">
+      <!-- Disclaimer -->
+      <section id="viewDisclaimer" class="view">
+        <h1>使用前請先同意免責聲明</h1>
+        <div class="notice">
+          <p>本平台為同事間「私下協調車位」的小工具，不具任何正式或強制效力，一切仍以公司規定為準。</p>
+          <p class="strong">目前功能陽春，請特別注意：</p>
+          <ul>
+            <li>❌ 沒有取消、修改功能（送出即寫入）</li>
+            <li>✅ 請務必確認「日期」與「資料」正確後再操作</li>
+            <li>✅ 警衛僅依本表查詢核對，不進行管理</li>
+          </ul>
+          <p class="muted">如果你不確定要不要操作，建議先用「我要查詢」看看當天狀態。</p>
+        </div>
+
+        <label class="check">
+          <input id="chkAccept" type="checkbox" />
+          <span>我已了解並同意上述內容</span>
+        </label>
+
+        <div class="actions">
+          <button id="btnAccept" class="primary" disabled>同意並繼續</button>
+        </div>
+      </section>
+
+      <!-- Menu -->
+      <section id="viewMenu" class="view hidden">
+        <h1>你要做什麼？</h1>
+        <div class="grid">
+          <button class="big" data-go="release">
+            <div class="bigTitle">我要釋出</div>
+            <div class="bigDesc">我原本有車位，因請假/出差願意釋出</div>
+          </button>
+          <button class="big" data-go="occupy">
+            <div class="bigTitle">我要候補</div>
+            <div class="bigDesc">我沒車位，想使用目前已釋出的空位</div>
+          </button>
+          <button class="big" data-go="query">
+            <div class="bigTitle">我要查詢</div>
+            <div class="bigDesc">只查看某一天 1～6 號車位狀態</div>
+          </button>
+        </div>
+        <div class="footerHint">
+          <span class="muted">提示：若頁面顯示「資料尚未初始化」，系統會自動初始化該日期。</span>
+        </div>
+      </section>
+
+      <!-- Release -->
+      <section id="viewRelease" class="view hidden">
+        <h1>釋出車位</h1>
+        <div class="form">
+          <label class="field">
+            <span>日期</span>
+            <input id="releaseDate" type="date" />
+          </label>
+
+          <label class="field">
+            <span>姓名（擁有車位者）</span>
+            <select id="releaseOwner">
+              <option value="" selected disabled>請選擇</option>
+              <option>王大明</option>
+              <option>王二明</option>
+              <option>王三明</option>
+              <option>王四明</option>
+              <option>王五明</option>
+              <option>王六明</option>
+            </select>
+          </label>
+
+          <div class="actions">
+            <button id="btnRelease" class="primary">釋出</button>
+            <button class="ghost" data-back>返回</button>
+          </div>
+        </div>
+
+        <div id="releaseMsg" class="msg" aria-live="polite"></div>
+        <div class="mini">
+          <button id="btnReleaseCheck" class="link">先查詢這一天狀態</button>
+        </div>
+      </section>
+
+      <!-- Occupy -->
+      <section id="viewOccupy" class="view hidden">
+        <h1>候補 / 使用釋出車位</h1>
+        <div class="form">
+          <label class="field">
+            <span>日期</span>
+            <input id="occupyDate" type="date" />
+          </label>
+
+          <label class="field">
+            <span>可用車位</span>
+            <select id="occupySlot" disabled>
+              <option value="" selected>請先選日期</option>
+            </select>
+            <div class="help muted">只有已釋出的車位會出現在這裡；如果空白代表目前無可用車位。</div>
+          </label>
+
+          <div class="twoCol">
+            <label class="field">
+              <span>部門</span>
+              <input id="occupyDept" type="text" placeholder="例如：R&D" />
+            </label>
+
+            <label class="field">
+              <span>姓名</span>
+              <input id="occupyName" type="text" placeholder="例如：陳小明" />
+            </label>
+
+            <label class="field">
+              <span>分機</span>
+              <input id="occupyExt" type="text" inputmode="numeric" placeholder="例如：1234" />
+            </label>
+
+            <label class="field">
+              <span>車號</span>
+              <input id="occupyPlate" type="text" placeholder="例如：ABC-1234" />
+            </label>
+          </div>
+
+          <div class="actions">
+            <button id="btnOccupy" class="primary">我要使用</button>
+            <button class="ghost" data-back>返回</button>
+          </div>
+        </div>
+
+        <div id="occupyMsg" class="msg" aria-live="polite"></div>
+        <div class="mini">
+          <button id="btnOccupyRefresh" class="link">重新整理可用車位</button>
+          <span class="muted">（會重新查詢該日期的釋出狀態）</span>
+        </div>
+      </section>
+
+      <!-- Query -->
+      <section id="viewQuery" class="view hidden">
+        <h1>查詢車位狀態</h1>
+        <div class="form">
+          <label class="field">
+            <span>日期</span>
+            <input id="queryDate" type="date" />
+          </label>
+
+          <div class="actions">
+            <button id="btnQuery" class="primary">查詢</button>
+            <button class="ghost" data-back>返回</button>
+          </div>
+        </div>
+
+        <div id="queryMsg" class="msg" aria-live="polite"></div>
+
+        <div class="tableWrap">
+          <table id="tbl" class="tbl">
+            <thead>
+              <tr>
+                <th>車位</th>
+                <th>狀態</th>
+                <th>使用者（部門 / 姓名 / 分機）</th>
+                <th>車號</th>
+              </tr>
+            </thead>
+            <tbody id="tblBody">
+              <tr><td colspan="4" class="muted">請先選日期並按查詢</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bottom">
+      <div class="muted small">
+        v1 · 無取消/修改功能 · 建議操作前先查詢確認
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
