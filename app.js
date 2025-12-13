@@ -2,7 +2,7 @@
    1) Set API_BASE to your Apps Script Web App URL.
    2) Host on GitHub Pages (static).
 */
-const API_BASE = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE'; // e.g. https://script.google.com/macros/s/XXXXX/exec
+const API_BASE = 'https://script.google.com/macros/s/AKfycbzl9qPCVcO9xOnXOpyqn-VWQxFWhKwsbdrnOQZ3TBcTEezd3sKrwI02nRp4RGe2q-sMKg/exec'; 
 
 const VIEWS = {
   disclaimer: 'viewDisclaimer',
