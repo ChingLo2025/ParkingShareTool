@@ -29,7 +29,6 @@
           <ul>
             <li>❌ 沒有取消、修改功能（送出即寫入）</li>
             <li>✅ 請務必確認「日期」與「資料」正確後再操作</li>
-            <li>✅ 警衛僅依本表查詢核對，不進行管理</li>
           </ul>
           <p class="muted">如果你不確定要不要操作，建議先用「我要查詢」看看當天狀態。</p>
         </div>
@@ -49,11 +48,11 @@
         <h1>你要做什麼？</h1>
         <div class="grid">
           <button class="big" data-go="release">
-            <div class="bigTitle">我要釋出</div>
+            <div class="bigTitle">我有車位，我要釋出</div>
             <div class="bigDesc">我原本有車位，因請假/出差願意釋出</div>
           </button>
           <button class="big" data-go="occupy">
-            <div class="bigTitle">我要候補</div>
+            <div class="bigTitle">我沒有車位，我要候補</div>
             <div class="bigDesc">我沒車位，想使用目前已釋出的空位</div>
           </button>
           <button class="big" data-go="query">
@@ -120,17 +119,17 @@
           <div class="twoCol">
             <label class="field">
               <span>部門</span>
-              <input id="occupyDept" type="text" placeholder="例如：R&D" />
+              <input id="occupyDept" type="text" placeholder="例如：材發一部" />
             </label>
 
             <label class="field">
               <span>姓名</span>
-              <input id="occupyName" type="text" placeholder="例如：陳小明" />
+              <input id="occupyName" type="text" placeholder="例如：羅小靖" />
             </label>
 
             <label class="field">
               <span>分機</span>
-              <input id="occupyExt" type="text" inputmode="numeric" placeholder="例如：1234" />
+              <input id="occupyExt" type="text" inputmode="numeric" placeholder="例如：504" />
             </label>
 
             <label class="field">
